@@ -13,20 +13,20 @@ chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
-#driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 def jokes():
 
     import requests
 
-    url = "https://joke3.p.rapidapi.com/v1/joke"
+    url = ""
 
     payload = "{ \"content\": \"A joke here\", \"nsfw\": \"false\"}"
     headers = {
-        'x-rapidapi-host': "joke3.p.rapidapi.com",
-        'x-rapidapi-key': "18a2b74abfmsh33d6bc7affb0c0dp156da5jsn8a17725ee385",
-        'content-type': "application/json",
-        'accept': "application/json"
+        '",
+        '",
+        '",
+        '"
         }
 
     response = requests.request("GET", url, data=payload, headers=headers)
@@ -35,20 +35,20 @@ def jokes():
     return(json_response["content"])
 
 def top_indian_news():
-    url="https://newsapi.org/v2/top-headlines?sources=the-hindu&apiKey=daf20c40821a4172a6ed2f8e377d4f1a"
+    url=""
     response= requests.get(url)
     json_response= response.json()
     return json_response['articles'] [0] ['title'] +" : "+ json_response['articles'] [0] ['description'] +"\n"+ json_response['articles'] [1] ['title'] +" : "+ json_response['articles'] [1] ['description'] +"\n"+ json_response['articles'] [2] ['title'] +" : "+ json_response['articles'] [2] ['description']
 
 def international_news():
-    url="https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=daf20c40821a4172a6ed2f8e377d4f1a"
+    url=""
     response= requests.get(url)
     json_response= response.json()
     return json_response['articles'] [0] ['title'] +" : "+ json_response['articles'] [0] ['description'] +"\n"+ json_response['articles'] [1] ['title'] +" : "+ json_response['articles'] [1] ['description'] +"\n"+ json_response['articles'] [2] ['title'] +" : "+ json_response['articles'] [2] ['description']
  
 def total_cases():
     try:
-        url = "https://api.covid19api.com/summary"
+        url = ""
         response = requests.get(url)
         json_response= response.json()
         s=json_response['Global']
@@ -64,7 +64,7 @@ def total_cases():
     
 def country_cases(last_message):
     try:
-        url = "https://api.covid19api.com/summary"
+        url = ""
         response = requests.get(url)
         json_response= response.json()
         c=0
