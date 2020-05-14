@@ -281,4 +281,4 @@ class InstaBot:
 
         sleep(10)
 
-InstaBot("", "")
+Intialize class()
