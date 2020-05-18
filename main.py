@@ -4,16 +4,16 @@ import requests
 import json
 import random
 import os 
-from os import environ
-from flask import Flask
-
-
+import urllib.request
+import os
+from os import path
+from cv2 import cv2
 chrome_options = webdriver.ChromeOptions()
 chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
-driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+#driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 def jokes():
 
@@ -21,12 +21,9 @@ def jokes():
 
     url = ""
 
-    payload = "{ \"content\": \"A joke here\", \"nsfw\": \"false\"}"
+    payload = "{}"
     headers = {
-        '",
-        '",
-        '",
-        '"
+        
         }
 
     response = requests.request("GET", url, data=payload, headers=headers)
@@ -189,87 +186,139 @@ class InstaBot:
                 #accept it
                 self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div[5]/button/div/div").click()
             sleep(1)
-            try:
+            #try:
+            y= self.driver.find_elements_by_class_name("_41V_T")
+            while len(y)!=0:
                 y= self.driver.find_elements_by_class_name("_41V_T")
-                while len(y)!=0:
-                    y= self.driver.find_elements_by_class_name("_41V_T")
-                    if(len(y)==0):
-                        break
+                if(len(y)==0):
+                    break
+                else:
+                    y[0].click()
+                    msg = self.driver.find_elements_by_tag_name('span')
+                    print("Last message in chats "+ msg[len(msg)-1].get_attribute('innerHTML'))
+                    lastmsg = msg[len(msg)-1].get_attribute('innerHTML')
+                    msgloc = msg[len(msg)-1].location['y']
+                    pictureasmsg = self.driver.find_elements_by_class_name("QzzMF")
+                    if(len(pictureasmsg)>0):
+                        pictureasmsg2 = self.driver.find_elements_by_class_name("QzzMF")
+                        imglast = pictureasmsg2[len(pictureasmsg2)-1].find_element_by_css_selector("*")
+                        imgloc = imglast.location['y']
+                    if(lastmsg == "Usa" or lastmsg == "USA" or lastmsg == "usa" or lastmsg == "America" or lastmsg == "Murica"):
+                        info = country_cases("United States of America")
                     else:
-                        y[0].click()
-                        msg = self.driver.find_elements_by_tag_name('span')
-                        print("Last message in chats "+ msg[len(msg)-1].get_attribute('innerHTML'))
-                        lastmsg = msg[len(msg)-1].get_attribute('innerHTML')
-                        if(lastmsg == "Usa" or lastmsg == "USA" or lastmsg == "usa" or lastmsg == "America" or lastmsg == "Murica"):
-                            info = country_cases("United States of America")
-                        else:
-                            info = country_cases(lastmsg)
-                        if(lastmsg == "Like"):
-                            like(self)
-                            #self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys("Service temporarily down please try again in a while.")
-                            #self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(lastmsg== "Total Cases" ):
-                            total_cases()
-                        elif (lastmsg=="Hi" or lastmsg=="Hey" or lastmsg == "hi" or lastmsg=="hey"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys("Hi, I am the Chinese bot not to be confused with a bat. Type \"List\" to know what I learnt in China ;)")
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(lastmsg=="List" or lastmsg == "list" or lastmsg == "What"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys("Type \"Total\" for total cases, \"Country Name\" for a specific country, \"News\" for domestic news, \"International\" for International News, \"Like\" for getting your pictures liked, \"Tell me a joke\" to hear a quick joke, \"Memes\" for memes")
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif (lastmsg=="Credits" or lastmsg == "Credit"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys("Made by @anushkawwww and @s0a0c0h0i0t")
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif (lastmsg=="Memes" or lastmsg == "Meme" or lastmsg == "meme" or lastmsg == "Send memes"or lastmsg == "Send meme" or lastmsg == "Lol"or lastmsg == "Haha"or lastmsg == "XD"or lastmsg == "Lmao"or lastmsg == "Ok"):
-                            accname = self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/button/div/div/div").get_attribute('innerHTML')
-                            self.driver.get("https://www.instagram.com/chinese_bot_not_bat/")
-                            sleep(2)
-                            #finds the post
-                            randompost = self.driver.find_elements_by_class_name("eLAPa")
-                            randompost[random.randint(0, 5)].click()
-                            sleep(2)
-                            self.driver.find_element_by_xpath("/html/body/div[4]/div[2]/div/article/div[2]/section[1]/button").click()
-                            sleep(2)
-                            self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div[2]/div/div[1]").click()
-                            sleep(2)
-                            self.driver.find_element_by_xpath("/html/body/div[6]/div/div[2]/div[1]/div/div[2]/input").send_keys(accname)
-                            sleep(2)
-                            #click first option checkbox
-                            self.driver.find_element_by_class_name("dCJp8").click()
-                            sleep(2)
-                            #click send button
-                            self.driver.find_element_by_xpath("/html/body/div[6]/div/div[1]/div/div[2]/div/button").click()
-                            sleep(1)
-                            #click close
-                            self.driver.find_element_by_xpath("/html/body/div[4]/div[3]/button").click()
-                            #open dm again
-                            self.driver.get("https://www.instagram.com/direct/inbox/")
-                            #self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys("This service is temporarily down. You can visit our page for memes instead")
-                            #self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(lastmsg == "Total cases"or lastmsg == "Total"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys(total_cases())
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(lastmsg=="Good bot"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys("This isn't reddit relax")
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(lastmsg=="Jokes" or lastmsg=="Joke" or lastmsg=="Tell me a joke" or lastmsg=="Another" or lastmsg=="I'm bored"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys(jokes())
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(lastmsg=="News"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys(top_indian_news())
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(lastmsg=="International" or lastmsg == "International news"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys(international_news())
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        elif(info =="No country found"):
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys("Not a valid command, type Hi to get further assistance")
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()
-                        else:
-                            self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea").send_keys(info)
-                            self.driver.find_element_by_xpath('//button[text()="Send"]').click()  
-                            sleep(1) 
-            except:
-                self.driver.get("https://instagram.com")
-                sleep(1)
+                        info = country_cases(lastmsg)
+                    if(lastmsg == "Like"):
+                        like(self)
+                        #self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys("Service temporarily down please try again in a while.")
+                        #self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg== "Total Cases" ):
+                        total_cases()
+                    elif (lastmsg=="Hi" or lastmsg=="Hey" or lastmsg == "hi" or lastmsg=="hey"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys("Hi, I am the Chinese bot not to be confused with a bat. Type \"List\" to know what I learnt in China ;)")
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg=="List" or lastmsg == "list" or lastmsg == "What"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys("Type \"Total\" for total cases, \"Country Name\" for a specific country, \"News\" for domestic news, \"International\" for International News, \"Like\" for getting your pictures liked, \"Tell me a joke\" to hear a quick joke, \"Memes\" for memes\n\"Pickup\" for pickup lines, Upload an image to nuke / deep fry / Meme-ify it,\"Last Uploaded\" to see what was uploaded last, \"Credits\" to show us some love")
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif (lastmsg=="Credits" or lastmsg == "Credit"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys("Made by @anushkawwww and @s0a0c0h0i0t")
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif (lastmsg=="Memes" or lastmsg == "Meme" or lastmsg == "meme" or lastmsg == "Send memes"or lastmsg == "Send meme" or lastmsg == "Lol"or lastmsg == "Haha"or lastmsg == "XD"or lastmsg == "Lmao"or lastmsg == "Ok"):
+                        accname = self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/button/div/div/div").get_attribute('innerHTML')
+                        self.driver.get("https://www.instagram.com/chinese_bot_not_bat/")
+                        sleep(2)
+                        #finds the post
+                        randompost = self.driver.find_elements_by_class_name("eLAPa")
+                        rp = randompost[random.randint(0, 5)]
+                        self.driver.execute_script("arguments[0].click();", rp)
+                        
+                        sleep(2)
+                        self.driver.find_element_by_xpath("/html/body/div[4]/div[2]/div/article/div[2]/section[1]/button").click()
+                        sleep(2)
+                        self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div[2]/div/div[1]").click()
+                        sleep(2)
+                        self.driver.find_element_by_xpath("/html/body/div[6]/div/div[2]/div[1]/div/div[2]/input").send_keys(accname)
+                        sleep(2)
+                        #click first option checkbox
+                        self.driver.find_element_by_class_name("dCJp8").click()
+                        sleep(2)
+                        #click send button
+                        self.driver.find_element_by_xpath("/html/body/div[6]/div/div[1]/div/div[2]/div/button").click()
+                        sleep(1)
+                        #click close
+                        self.driver.find_element_by_xpath("/html/body/div[4]/div[3]/button").click()
+                        #open dm again
+                        self.driver.get("https://www.instagram.com/direct/inbox/")
+                        #self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys("This service is temporarily down. You can visit our page for memes instead")
+                        #self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg == "Total cases"or lastmsg == "Total"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(total_cases())
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg=="Pickup" or lastmsg=="Pickup lines" or lastmsg=="Pick up"):
+                        self.driver.execute_script("window.open('');")
+                        sleep(1)
+                        self.driver.switch_to.window(self.driver.window_handles[1])
+                        self.driver.get("http://www.pickuplinegen.com/")
+                        sleep(2)
+                        self.driver.find_element_by_css_selector("#generate > a").click()
+                        sleep(2)
+                        s = self.driver.find_element_by_id("content").get_attribute('innerHTML').lstrip()
+                        self.driver.close()
+                        self.driver.switch_to.window(self.driver.window_handles[0])
+                        sleep(1)
+                        print(s)
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(s)
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg=="Jokes" or lastmsg=="Joke" or lastmsg=="Tell me a joke" or lastmsg=="Another" or lastmsg=="I'm bored"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(jokes())
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg=="News"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(top_indian_news())
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg=="International" or lastmsg == "International news"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(international_news())
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(len(pictureasmsg)>0 and imgloc>msgloc):
+                        print("Picture detected")
+                        sleep(1)
+                        imginchatarr = self.driver.find_elements_by_class_name("QzzMF")
+                        print(len(imginchatarr))
+                        src = imginchatarr[len(imginchatarr)-1].find_element_by_css_selector("*").get_attribute('src')
+                        urllib.request.urlretrieve(src, "i.png")
+                        print('getcwd:      ', os.getcwd())
+                        print('__file__:    ', __file__)
+                        print ("File exists:"+str(path.exists('i.png')))
+                        imgtochange=cv2.imread('i.png')
+                        add = 3*imgtochange
+                        cv2.imwrite('i.png', add)
+                        self.driver.execute_script("window.open('');")
+                        sleep(1)
+                        self.driver.switch_to.window(self.driver.window_handles[1])
+                        self.driver.get("https://snipboard.io/")
+                        sleep(2)
+                        file_input = self.driver.find_element_by_xpath("//*[@id=\"filepicker\"]")
+                        self.driver.execute_script("arguments[0].style.display = 'block';", file_input)
+                        file_input.send_keys(os.getcwd()+"/i.png")
+                        sleep(5)
+                        link = self.driver.find_element_by_xpath("//*[@id=\"app\"]/div/div[1]/div/div[2]/div[4]/div[1]/div[1]/div[2]/div/a").get_attribute('innerHTML')
+                        print(link)
+                        self.driver.close()
+                        self.driver.switch_to.window(self.driver.window_handles[0])
+                        sleep(1)
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(link)
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(lastmsg =="Last uploaded" or lastmsg == "Last Uploaded"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(link)
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    elif(info =="No country found"):
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys("Not a valid command, type Hi to get further assistance")
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()
+                    else:
+                        self.driver.find_element_by_xpath("//*[@id=\"react-root\"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/section/div/div[2]/textarea").send_keys(info)
+                        self.driver.find_element_by_xpath('//button[text()="Send"]').click()  
+                        sleep(1) 
+            #except:
+                #self.driver.get("https://instagram.com")
+                #sleep(1)
             print("Ended")
             sleep(1)
             self.driver.get("https://instagram.com")
@@ -281,4 +330,4 @@ class InstaBot:
 
         sleep(10)
 
-Intialize class()
+InstaBot()
